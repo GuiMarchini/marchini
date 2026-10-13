@@ -25,6 +25,8 @@ const translations = {
     workSub: "Uma seleção de projetos focados em problemas práticos, sistemas de software e desenvolvimento de produto.",
     mediaLabel: "Imagem do projeto",
     mediaSlot: "Imagem do projeto",
+    rumoBanner: "Banner do Rumo: aplicativo mobile com as telas de comparação, recomendações e chat",
+    sigosBanner: "Banner do Sigos: painel de gestão de obras e ordens de serviço",
     techLabel: "Tecnologias",
     rumoStatus: "Concluído",
     rumoCat: "EdTech / Apoio à decisão",
@@ -60,23 +62,6 @@ const translations = {
     certsSub: "Formações complementares que fazem parte da minha evolução como desenvolvedor.",
     certView: "Ver credencial",
     certClose: "Clique para fechar",
-    caseStudy: "Case study",
-    csBack: "Projetos",
-    csKicker: "Case study",
-    csFactType: "Tipo",
-    csFactRole: "Meu papel",
-    csFactStatus: "Status",
-    csFactStack: "Stack",
-    csSecOverview: "Contexto",
-    csTitleOverview: "Sobre o projeto",
-    csSecProblem: "Desafio",
-    csTitleProblem: "Por que ele existe",
-    csSecProcess: "Processo",
-    csTitleProcess: "Como foi construído",
-    csSecLearn: "Aprendizados",
-    csTitleLearn: "O que levei daqui",
-    csNext: "Próximo case",
-    csAll: "Ver todos os projetos",
     certZoom: "Ampliar imagem",
     lightboxClose: "Fechar",
     certIeltsDesc: "Certificação internacional de proficiência em inglês, com nota geral 8.0.",
@@ -150,6 +135,8 @@ const translations = {
     workSub: "A selection of projects focused on practical problems, software systems, and product development.",
     mediaLabel: "Project image",
     mediaSlot: "Project image",
+    rumoBanner: "Rumo banner: mobile app with the comparison, recommendations and chat screens",
+    sigosBanner: "Sigos banner: construction and service-order management dashboard",
     techLabel: "Technologies",
     rumoStatus: "Completed",
     rumoCat: "EdTech / Decision support",
@@ -185,23 +172,6 @@ const translations = {
     certsSub: "Complementary training that is part of my growth as a developer and a professional.",
     certView: "View credential",
     certClose: "Click to close",
-    caseStudy: "Case study",
-    csBack: "Projects",
-    csKicker: "Case study",
-    csFactType: "Type",
-    csFactRole: "My role",
-    csFactStatus: "Status",
-    csFactStack: "Stack",
-    csSecOverview: "Overview",
-    csTitleOverview: "About the project",
-    csSecProblem: "Challenge",
-    csTitleProblem: "Why it exists",
-    csSecProcess: "Process",
-    csTitleProcess: "How it was built",
-    csSecLearn: "Takeaways",
-    csTitleLearn: "What I took from it",
-    csNext: "Next case",
-    csAll: "See all projects",
     certZoom: "Enlarge image",
     lightboxClose: "Close",
     certIeltsDesc: "International English proficiency certification, with an overall band score of 8.0.",
@@ -293,6 +263,11 @@ function applyLanguage(lang) {
   document.querySelectorAll("[data-i18n-label]").forEach((el) => {
     const text = dict[el.dataset.i18nLabel];
     if (text !== undefined) el.setAttribute("aria-label", text);
+  });
+
+  document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+    const text = dict[el.dataset.i18nAlt];
+    if (text !== undefined) el.alt = text;
   });
 
   document.querySelectorAll("[data-i18n-title]").forEach((el) => {
