@@ -1015,7 +1015,7 @@ main,
 
 .cf {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
@@ -1685,11 +1685,20 @@ html.scroll-locked body {
     mask-image: none;
     animation: title-up 1s var(--ease) 0.15s backwards;
   }
+
+  .title-glow,
+  .gridbg {
+    display: none;
+  }
 }
 
 @media (max-width: 760px) {
   .cert.open .cert-flip {
     transform: none;
+  }
+
+  .cert.open .cert-front {
+    visibility: hidden;
   }
 
   .cert.reveal .cert-panel {
@@ -1913,6 +1922,39 @@ html.scroll-locked body {
 .lightbox-close:focus-visible {
   outline: 2px solid var(--ac);
   outline-offset: 3px;
+}
+
+/* ---------- Case study buttons ---------- */
+
+.btn-case {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(var(--ac-rgb), 0.5);
+  border-radius: 7px;
+  background: var(--acs);
+  color: var(--ach);
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s, box-shadow 0.3s var(--ease);
+}
+
+.btn-case svg {
+  transition: transform 0.2s var(--ease);
+}
+
+.btn-case:hover {
+  background: var(--ac);
+  border-color: var(--ac);
+  color: var(--bg);
+  box-shadow: 0 0 28px rgba(var(--ac-rgb), 0.45);
+}
+
+.btn-case:hover svg {
+  transform: translateX(3px);
 }
 
 /* ---------- Experience ---------- */
@@ -2391,6 +2433,10 @@ html.scroll-locked body {
   .hero-desc {
     display: flex;
     flex-direction: column;
+  }
+
+  .hero-meta .idx {
+    display: none;
   }
 
   .hero-place::before {

@@ -60,6 +60,23 @@ const translations = {
     certsSub: "Formações complementares que fazem parte da minha evolução como desenvolvedor.",
     certView: "Ver credencial",
     certClose: "Clique para fechar",
+    caseStudy: "Case study",
+    csBack: "Projetos",
+    csKicker: "Case study",
+    csFactType: "Tipo",
+    csFactRole: "Meu papel",
+    csFactStatus: "Status",
+    csFactStack: "Stack",
+    csSecOverview: "Contexto",
+    csTitleOverview: "Sobre o projeto",
+    csSecProblem: "Desafio",
+    csTitleProblem: "Por que ele existe",
+    csSecProcess: "Processo",
+    csTitleProcess: "Como foi construído",
+    csSecLearn: "Aprendizados",
+    csTitleLearn: "O que levei daqui",
+    csNext: "Próximo case",
+    csAll: "Ver todos os projetos",
     certZoom: "Ampliar imagem",
     lightboxClose: "Fechar",
     certIeltsDesc: "Certificação internacional de proficiência em inglês, com nota geral 8.0.",
@@ -168,6 +185,23 @@ const translations = {
     certsSub: "Complementary training that is part of my growth as a developer and a professional.",
     certView: "View credential",
     certClose: "Click to close",
+    caseStudy: "Case study",
+    csBack: "Projects",
+    csKicker: "Case study",
+    csFactType: "Type",
+    csFactRole: "My role",
+    csFactStatus: "Status",
+    csFactStack: "Stack",
+    csSecOverview: "Overview",
+    csTitleOverview: "About the project",
+    csSecProblem: "Challenge",
+    csTitleProblem: "Why it exists",
+    csSecProcess: "Process",
+    csTitleProcess: "How it was built",
+    csSecLearn: "Takeaways",
+    csTitleLearn: "What I took from it",
+    csNext: "Next case",
+    csAll: "See all projects",
     certZoom: "Enlarge image",
     lightboxClose: "Close",
     certIeltsDesc: "International English proficiency certification, with an overall band score of 8.0.",
@@ -399,6 +433,7 @@ function initScrollSpy() {
 
 function initProgress() {
   const bar = document.querySelector(".progress-bar");
+  if (!bar) return;
 
   const update = () => {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -469,6 +504,7 @@ function initCursorGlow() {
   if (!finePointer || reducedMotion) return;
 
   const glow = document.querySelector(".cursor-glow");
+  if (!glow) return;
   let x = 0;
   let y = 0;
   let queued = false;
@@ -493,6 +529,7 @@ function initCursorTip() {
   if (!finePointer) return;
 
   const tip = document.querySelector(".cursor-tip");
+  if (!tip) return;
   const label = tip.querySelector("span");
   let x = 0;
   let y = 0;
@@ -556,6 +593,7 @@ function initTilt() {
 function initHeroTitle() {
   const hero = document.querySelector(".hero");
   const title = document.querySelector(".hero-title");
+  if (!hero || !title) return;
 
   const shiftColor = () => {
     const progress = Math.min(window.scrollY / hero.offsetHeight, 1);
@@ -584,6 +622,7 @@ function initHeroTitle() {
 function initStackBoard() {
   const filters = document.querySelectorAll(".filter");
   const board = document.getElementById("board");
+  if (!board) return;
   const tiles = [...board.querySelectorAll(".tile")];
   let current = document.querySelector(".filter.on").dataset.filter;
   let started = false;
@@ -646,6 +685,7 @@ function initStackBoard() {
 
 function initLightbox() {
   const box = document.getElementById("lightbox");
+  if (!box) return;
   const image = box.querySelector("img");
   const closeButton = box.querySelector(".lightbox-close");
   let opener = null;
@@ -682,6 +722,7 @@ function initLightbox() {
 function initCertificates() {
   const certs = document.querySelectorAll(".cert");
   const backdrop = document.querySelector(".viewer-backdrop");
+  if (!backdrop) return;
   let active = null;
   let timers = [];
 
