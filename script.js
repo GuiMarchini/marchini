@@ -12,7 +12,8 @@ const translations = {
     langLabel: "Idioma do site",
     menuOpen: "Abrir menu",
     menuClose: "Fechar menu",
-    descriptor: "Desenvolvedor de software · Belo Horizonte, Brasil",
+    descRole: "Desenvolvedor de software",
+    descPlace: "Belo Horizonte, Brasil",
     index: "Portfólio — 2026",
     rulerMid: "Backend · Aplicações · Sistemas",
     headline: "Construindo software para resolver problemas reais.",
@@ -119,7 +120,8 @@ const translations = {
     langLabel: "Site language",
     menuOpen: "Open menu",
     menuClose: "Close menu",
-    descriptor: "Software developer · Belo Horizonte, Brazil",
+    descRole: "Software developer",
+    descPlace: "Belo Horizonte, Brazil",
     index: "Portfolio — 2026",
     rulerMid: "Backend · Applications · Systems",
     headline: "Building software to solve real problems.",
@@ -303,7 +305,8 @@ function updateMenuLabel() {
 
 function setMenu(open) {
   menuBtn.setAttribute("aria-expanded", String(open));
-  mnav.hidden = !open;
+  mnav.classList.toggle("open", open);
+  mnav.inert = !open;
   updateMenuLabel();
 }
 
@@ -747,10 +750,11 @@ function initCertificates() {
     panel.setAttribute("aria-hidden", "false");
     cert.querySelector("[data-cert]").setAttribute("aria-expanded", "true");
 
+    const compact = window.matchMedia("(max-width: 760px)").matches;
     later(() => {
       cert.classList.add("reveal");
       cert.querySelector(".cert-close").focus({ preventScroll: true });
-    }, 300);
+    }, compact ? 0 : 300);
     later(() => cert.classList.remove("flipping"), 480);
   };
 
