@@ -1425,6 +1425,8 @@ main,
 html.scroll-locked,
 html.scroll-locked body {
   overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pinch-zoom;
 }
 
 .cert.open,

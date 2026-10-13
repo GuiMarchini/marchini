@@ -811,6 +811,14 @@ function initCertificates() {
 
   backdrop.addEventListener("click", close);
   document.addEventListener("keydown", (event) => event.key === "Escape" && close());
+
+  document.addEventListener(
+    "touchmove",
+    (event) => {
+      if (active && event.touches.length === 1) event.preventDefault();
+    },
+    { passive: false }
+  );
 }
 
 /* ---------- Init ---------- */
