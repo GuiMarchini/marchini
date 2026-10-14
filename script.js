@@ -25,6 +25,10 @@ const translations = {
     workSub: "Uma seleção de projetos focados em problemas práticos, sistemas de software e desenvolvimento de produto.",
     mediaLabel: "Imagem do projeto",
     mediaSlot: "Imagem do projeto",
+    themeLabel: "Cor do site",
+    themePurple: "Roxo",
+    themeGreen: "Verde",
+    themeSalmon: "Salmão",
     rumoBanner: "Banner do Rumo: aplicativo mobile com as telas de comparação, recomendações e chat",
     sigosBanner: "Banner do Sigos: painel de gestão de obras e ordens de serviço",
     techLabel: "Tecnologias",
@@ -135,6 +139,10 @@ const translations = {
     workSub: "A selection of projects focused on practical problems, software systems, and product development.",
     mediaLabel: "Project image",
     mediaSlot: "Project image",
+    themeLabel: "Site color",
+    themePurple: "Purple",
+    themeGreen: "Green",
+    themeSalmon: "Salmon",
     rumoBanner: "Rumo banner: mobile app with the comparison, recommendations and chat screens",
     sigosBanner: "Sigos banner: construction and service-order management dashboard",
     techLabel: "Technologies",
@@ -796,9 +804,56 @@ function initCertificates() {
   );
 }
 
+/* ---------- Accent color ---------- */
+
+function initTheme() {
+  const root = document.getElementById("theme");
+  const button = document.getElementById("themeBtn");
+  const menu = document.getElementById("themeMenu");
+  const swatches = menu.querySelectorAll(".swatch");
+  const accents = [...swatches].map((swatch) => swatch.dataset.accent);
+
+  const apply = (name) => {
+    document.documentElement.dataset.accent = name;
+    swatches.forEach((swatch) => swatch.setAttribute("aria-pressed", String(swatch.dataset.accent === name)));
+  };
+
+  const setOpen = (open) => {
+    root.classList.toggle("open", open);
+    button.setAttribute("aria-expanded", String(open));
+    menu.inert = !open;
+  };
+
+  const saved = readStorage("accent");
+  apply(accents.includes(saved) ? saved : "green");
+
+  button.addEventListener("click", () => setOpen(!root.classList.contains("open")));
+
+  swatches.forEach((swatch) => {
+    swatch.addEventListener("click", () => {
+      apply(swatch.dataset.accent);
+      writeStorage("accent", swatch.dataset.accent);
+      setOpen(false);
+      button.focus({ preventScroll: true });
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!root.contains(event.target)) setOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && root.classList.contains("open")) {
+      setOpen(false);
+      button.focus({ preventScroll: true });
+    }
+  });
+}
+
 /* ---------- Init ---------- */
 
 initLanguage();
+initTheme();
 initMenu();
 initScrollSpy();
 initProgress();
