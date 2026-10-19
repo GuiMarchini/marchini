@@ -882,36 +882,61 @@ function initCertCarousel() {
   const tablet = window.matchMedia("(max-width: 1024px)");
   let start = 0;
   let busy = false;
+  let anchored = false;
 
   const visibleCount = () => (compact.matches ? 1 : tablet.matches ? 2 : 3);
+  const anchor = () => (compact.matches ? 1 : 0);
   const step = () => track.children[1].offsetLeft - track.children[0].offsetLeft;
   const locked = () => document.documentElement.classList.contains("scroll-locked");
 
+  const base = () => {
+    if (!compact.matches) return 0;
+    const card = track.children[anchor()];
+    const room = (region.clientWidth - 0 - card.offsetWidth) / 2;
+    return room - card.offsetLeft;
+  };
+
+  const place = () => {
+    track.style.transition = "none";
+    track.style.transform = `translateX(${base()}px)`;
+  };
+
   const refresh = () => {
-    const visible = visibleCount();
-    [...track.children].forEach((card, index) => (card.inert = index > visible));
+    const limit = anchor() + visibleCount();
+    [...track.children].forEach((card, index) => (card.inert = index > limit));
     dots.forEach((dot, index) => {
       const offset = (index - start + total) % total;
-      dot.classList.toggle("on", offset < visible);
+      dot.classList.toggle("on", offset < visibleCount());
     });
+  };
+
+  const settle = () => {
+    if (compact.matches && !anchored) {
+      track.insertBefore(track.lastElementChild, track.firstElementChild);
+      anchored = true;
+    } else if (!compact.matches && anchored) {
+      track.appendChild(track.firstElementChild);
+      anchored = false;
+    }
+    place();
+    refresh();
   };
 
   const slide = (direction) => {
     if (busy || locked()) return;
     busy = true;
     const distance = step();
+    const origin = base();
 
-    if (direction > 0) {
-      track.style.transition = `transform ${duration}ms var(--ease)`;
-      track.style.transform = `translateX(${-distance}px)`;
-    } else {
-      track.style.transition = "none";
+    track.style.transition = "none";
+    if (direction < 0) {
       track.insertBefore(track.lastElementChild, track.firstElementChild);
-      track.style.transform = `translateX(${-distance}px)`;
+      track.style.transform = `translateX(${origin - distance}px)`;
       track.getBoundingClientRect();
-      track.style.transition = `transform ${duration}ms var(--ease)`;
-      track.style.transform = "translateX(0)";
     }
+
+    track.style.transition = `transform ${duration}ms var(--ease)`;
+    track.style.transform = direction > 0 ? `translateX(${origin - distance}px)` : `translateX(${origin}px)`;
 
     start = (start + direction + total) % total;
     refresh();
@@ -920,7 +945,7 @@ function initCertCarousel() {
       if (direction > 0) {
         track.style.transition = "none";
         track.appendChild(track.firstElementChild);
-        track.style.transform = "translateX(0)";
+        track.style.transform = `translateX(${origin}px)`;
         track.getBoundingClientRect();
         refresh();
       }
@@ -969,9 +994,10 @@ function initCertCarousel() {
     true
   );
 
-  compact.addEventListener("change", refresh);
+  compact.addEventListener("change", settle);
   tablet.addEventListener("change", refresh);
-  refresh();
+  window.addEventListener("resize", () => !busy && compact.matches && place());
+  settle();
 }
 
 /* ---------- Init ---------- */

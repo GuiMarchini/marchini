@@ -2662,7 +2662,7 @@ html.scroll-locked .theme {
   .certs-carousel {
     --pad: 20px;
     --gap: 14px;
-    --cw: calc(var(--content) * 0.84);
+    --cw: calc(var(--content) * 0.78);
   }
 
   .cb {
@@ -2744,13 +2744,13 @@ html.scroll-locked .theme {
 @media (max-width: 760px) {
   .cert-back,
   .cert-panel {
-    left: -2%;
-    right: -2%;
+    left: 0;
+    right: auto;
+    width: min(calc(100vw - 32px), 520px);
   }
 
   .cert-panel {
-    left: calc(-2% + var(--bx, 0px));
-    right: calc(-2% - var(--bx, 0px));
+    left: var(--bx, 0px);
     flex-direction: column;
     align-items: stretch;
     gap: 22px;
