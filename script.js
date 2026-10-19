@@ -25,6 +25,9 @@ const translations = {
     workSub: "Uma seleção de projetos focados em problemas práticos, sistemas de software e desenvolvimento de produto.",
     mediaLabel: "Imagem do projeto",
     mediaSlot: "Imagem do projeto",
+    certsCarousel: "Carrossel de certificados",
+    certPrev: "Certificado anterior",
+    certNext: "Próximo certificado",
     themeLabel: "Cor do site",
     themePurple: "Roxo",
     themeGreen: "Verde",
@@ -69,9 +72,15 @@ const translations = {
     certZoom: "Ampliar imagem",
     lightboxClose: "Fechar",
     certIeltsDesc: "Certificação internacional de proficiência em inglês, com nota geral 8.0.",
-    certCiscoDesc: "Certificado de conhecimentos sobre segurança e conscientização no ambiente digital.",
     certLinguaDesc: "Certificação de inglês com nível B2, demonstrando proficiência no idioma.",
-    certCiscoTitle: "Cisco – Conscientização Digital",
+    certPy1Title: "Fundamentos do Python 1",
+    certPy1Desc: "Curso da Cisco Networking Academy, em parceria com o Python Institute, com os fundamentos da linguagem Python.",
+    certPy2Title: "Fundamentos de Python 2",
+    certPy2Desc: "Curso da Cisco Networking Academy, em parceria com o Python Institute, que aprofunda o estudo da linguagem Python.",
+    certCyberTitle: "Introdução à Cibersegurança",
+    certCyberDesc: "Curso da Cisco Networking Academy, oferecido pelo Cotemig, com os fundamentos de cibersegurança.",
+    certAiTitle: "Introdução à IA moderna",
+    certAiDesc: "Curso da Cisco Networking Academy, oferecido pelo Cotemig, com uma introdução à inteligência artificial moderna.",
     xpLbl: "Trajetória",
     xpTitle: "Experiência e formação",
     x1type: "Estágio",
@@ -139,6 +148,9 @@ const translations = {
     workSub: "A selection of projects focused on practical problems, software systems, and product development.",
     mediaLabel: "Project image",
     mediaSlot: "Project image",
+    certsCarousel: "Certificates carousel",
+    certPrev: "Previous certificate",
+    certNext: "Next certificate",
     themeLabel: "Site color",
     themePurple: "Purple",
     themeGreen: "Green",
@@ -183,9 +195,15 @@ const translations = {
     certZoom: "Enlarge image",
     lightboxClose: "Close",
     certIeltsDesc: "International English proficiency certification, with an overall band score of 8.0.",
-    certCiscoDesc: "Certificate covering knowledge of security and awareness in the digital environment.",
     certLinguaDesc: "English certification at B2 level, demonstrating language proficiency.",
-    certCiscoTitle: "Cisco – Digital Awareness",
+    certPy1Title: "Python Essentials 1",
+    certPy1Desc: "Cisco Networking Academy course, in partnership with the Python Institute, covering the fundamentals of the Python language.",
+    certPy2Title: "Python Essentials 2",
+    certPy2Desc: "Cisco Networking Academy course, in partnership with the Python Institute, that goes deeper into the Python language.",
+    certCyberTitle: "Introduction to Cybersecurity",
+    certCyberDesc: "Cisco Networking Academy course, offered by Cotemig, covering the fundamentals of cybersecurity.",
+    certAiTitle: "Introduction to Modern AI",
+    certAiDesc: "Cisco Networking Academy course, offered by Cotemig, with an introduction to modern artificial intelligence.",
     xpLbl: "Path",
     xpTitle: "Experience & Education",
     x1type: "Internship",
@@ -850,6 +868,112 @@ function initTheme() {
   });
 }
 
+/* ---------- Certificates carousel ---------- */
+
+function initCertCarousel() {
+  const track = document.getElementById("certsTrack");
+  if (!track) return;
+
+  const region = track.parentElement;
+  const dots = document.querySelectorAll(".cdots li");
+  const total = track.children.length;
+  const duration = 500;
+  const compact = window.matchMedia("(max-width: 760px)");
+  const tablet = window.matchMedia("(max-width: 1024px)");
+  let start = 0;
+  let busy = false;
+
+  const visibleCount = () => (compact.matches ? 1 : tablet.matches ? 2 : 3);
+  const step = () => track.children[1].offsetLeft - track.children[0].offsetLeft;
+  const locked = () => document.documentElement.classList.contains("scroll-locked");
+
+  const refresh = () => {
+    const visible = visibleCount();
+    [...track.children].forEach((card, index) => (card.inert = index > visible));
+    dots.forEach((dot, index) => {
+      const offset = (index - start + total) % total;
+      dot.classList.toggle("on", offset < visible);
+    });
+  };
+
+  const slide = (direction) => {
+    if (busy || locked()) return;
+    busy = true;
+    const distance = step();
+
+    if (direction > 0) {
+      track.style.transition = `transform ${duration}ms var(--ease)`;
+      track.style.transform = `translateX(${-distance}px)`;
+    } else {
+      track.style.transition = "none";
+      track.insertBefore(track.lastElementChild, track.firstElementChild);
+      track.style.transform = `translateX(${-distance}px)`;
+      track.getBoundingClientRect();
+      track.style.transition = `transform ${duration}ms var(--ease)`;
+      track.style.transform = "translateX(0)";
+    }
+
+    start = (start + direction + total) % total;
+    refresh();
+
+    setTimeout(() => {
+      if (direction > 0) {
+        track.style.transition = "none";
+        track.appendChild(track.firstElementChild);
+        track.style.transform = "translateX(0)";
+        track.getBoundingClientRect();
+        refresh();
+      }
+      busy = false;
+    }, reducedMotion ? 0 : duration + 30);
+  };
+
+  document.getElementById("certNext").addEventListener("click", () => slide(1));
+  document.getElementById("certPrev").addEventListener("click", () => slide(-1));
+
+  region.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") slide(1);
+    if (event.key === "ArrowLeft") slide(-1);
+  });
+
+  let startX = null;
+  let moved = false;
+
+  track.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    startX = event.clientX;
+    moved = false;
+  });
+
+  window.addEventListener("pointermove", (event) => {
+    if (startX === null) return;
+    if (Math.abs(event.clientX - startX) > 8) moved = true;
+  });
+
+  window.addEventListener("pointerup", (event) => {
+    if (startX === null) return;
+    const delta = event.clientX - startX;
+    startX = null;
+    if (moved && Math.abs(delta) > 50) slide(delta < 0 ? 1 : -1);
+  });
+
+  track.addEventListener(
+    "click",
+    (event) => {
+      if (moved) {
+        event.stopPropagation();
+        event.preventDefault();
+        moved = false;
+      }
+    },
+    true
+  );
+
+  compact.addEventListener("change", refresh);
+  tablet.addEventListener("change", refresh);
+  refresh();
+}
+
 /* ---------- Init ---------- */
 
 initLanguage();
@@ -866,4 +990,5 @@ initCursorTip();
 initPlaceholderLinks();
 initStackBoard();
 initLightbox();
+initCertCarousel();
 initCertificates();
