@@ -888,40 +888,6 @@ main,
   object-fit: cover;
 }
 
-.ghostnum {
-  display: flex;
-  align-items: flex-end;
-  font-family: var(--head);
-  font-weight: 800;
-  font-size: 110px;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  color: transparent;
-  -webkit-text-stroke: 1px #4a4a52;
-}
-
-.ghostnum .caret {
-  height: 0.55em;
-  margin-bottom: 0.12em;
-}
-
-.card-soon {
-  background: transparent;
-  border-style: dashed;
-  border-color: var(--ln2);
-}
-
-.card-soon .media {
-  background: transparent;
-  background-image: none;
-  border-bottom-style: dashed;
-  border-color: var(--ln2);
-}
-
-.card-soon h3 {
-  color: var(--t2);
-}
-
 .cb {
   display: flex;
   flex-direction: column;
@@ -996,7 +962,7 @@ main,
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin: 2px 0 0;
+  margin: auto 0 0;
   padding: 0;
   list-style: none;
 }
@@ -1021,27 +987,15 @@ main,
   transform: translateY(-2px);
 }
 
-.tags.ghost li {
-  width: 56px;
-  background: transparent;
-  border: 1px dashed var(--ln2);
-  color: transparent;
-}
-
 .cf {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: auto;
+  margin-top: 2px;
   padding-top: 16px;
   border-top: 1px solid var(--ln);
-}
-
-.card-soon .cf {
-  border-top-style: dashed;
-  border-color: var(--ln2);
 }
 
 .soon-note {
@@ -2460,11 +2414,6 @@ html.scroll-locked .theme {
   to   { opacity: 1; scale: 1 1; }
 }
 
-@keyframes blink {
-  0%, 55%  { opacity: 1; }
-  56%, 100% { opacity: 0; }
-}
-
 @keyframes sweep {
   from { transform: translateX(0); }
   to   { transform: translateX(58%); }
@@ -2855,7 +2804,6 @@ html.scroll-locked .theme {
     filter: none;
   }
 
-  .caret,
   .tile,
   .cert-text > *,
   .cert-text > .cert-close,
