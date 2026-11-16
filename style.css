@@ -1384,8 +1384,7 @@ main,
   --content: calc(min(100vw, 1280px) - var(--pad) * 2);
   --cw: calc((var(--content) - var(--gap) * (var(--visible) - 1)) / var(--visible));
   position: relative;
-  margin-right: calc((100vw - min(100vw, 1280px)) / -2 - var(--pad));
-  clip-path: inset(-200px 0 -200px -16px);
+  clip-path: inset(-200px -16px -200px -16px);
   touch-action: pan-y;
 }
 
